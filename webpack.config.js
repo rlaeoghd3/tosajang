@@ -3,7 +3,7 @@ const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const extractSass = new ExtractTextPlugin({
-    filename: "css/[name].css",
+    filename:  "../css/style.css",
     disable: false,
     allChunks: true
 });
@@ -14,7 +14,7 @@ module.exports = {
         options: path.join(__dirname, 'src/options.ts'),
         content_script: path.join(__dirname, 'src/content_script.ts'),
         background: path.join(__dirname, 'src/background.ts'),
-        style: path.join(__dirname, 'sass/app.scss'),
+        style: path.join(__dirname, 'sass/style.scss'),
         vendor: ['moment', 'jquery']
     },
     output: {
