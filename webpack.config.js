@@ -1,5 +1,12 @@
 const webpack = require("webpack");
 const path = require('path');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
+const extractSass = new ExtractTextPlugin({
+    filename: "css/[name].css",
+    disable: false,
+    allChunks: true
+});
 
 module.exports = {
     entry: {
@@ -7,6 +14,7 @@ module.exports = {
         options: path.join(__dirname, 'src/options.ts'),
         content_script: path.join(__dirname, 'src/content_script.ts'),
         background: path.join(__dirname, 'src/background.ts'),
+        style: path.join(__dirname, 'sass/app.scss'),
         vendor: ['moment', 'jquery']
     },
     output: {
@@ -14,16 +22,32 @@ module.exports = {
         filename: '[name].js'
     },
     module: {
-        loaders: [{
-            exclude: /node_modules/,
-            test: /\.tsx?$/,
-            loader: 'ts-loader'
-        }]
+        rules: [
+            {
+                test: /\.scss$/,
+                use: extractSass.extract({
+                    use: [{
+                        loader: "css-loader"
+                    }, {
+                        loader: "sass-loader"
+                    }],
+                    fallback: "style-loader"
+                })
+            },
+            {
+                exclude: /node_modules/,
+                test: /\.tsx?$/,
+                loader: 'ts-loader'
+            },
+        ]
     },
     resolve: {
         extensions: ['.ts', '.tsx', '.js']
     },
     plugins: [
+
+        // sass build
+        extractSass,
 
         // pack common vender files
         new webpack.optimize.CommonsChunkPlugin({
