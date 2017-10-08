@@ -1,0 +1,12 @@
+body {
+    font-family: 'Jeju Gothic', serif;
+    font-size: 100%;
+}
+
+.popup-wrapper {
+    width: 300px;
+
+    .popup-header{
+        text-align: center;
+    }
+}
